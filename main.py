@@ -21,6 +21,13 @@ The string knew both our hands."""
 
 
 def main() -> None:
+    # The competition gates the entry on 1-280 code points of non-blank
+    # text; fail loudly here rather than shipping an entry the grader
+    # would reject if the poem is ever edited past the gate.
+    if not 1 <= len(POEM) <= 280:
+        raise SystemExit(f"poem is {len(POEM)} code points, outside the 1-280 gate")
+    if not POEM.strip():
+        raise SystemExit("poem is blank")
     out = Path("/output/entry.txt")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(POEM, encoding="utf-8")
